@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.0/fabric.min.js"></script>
+    <script type="text/javascript">
+      window.onload = function () {
+        with(fabric){
+          var canvas = new Canvas("myCanvas");
+            canvas.setHeight(290);
+            canvas.setWidth(300);
+          var rect = new Rect({
+            left: 150, top: 100,
+            width: 50, height: 50,
+            fill: 'red', angle: 90
+          });
+          var triangle = new Triangle({
+            width: 50, height: 70,
+            left: 200, top: 150,
+            fill: 'blue'
+          });
+          var line = new Line([150,200,90,100],{
+            left: 150, top: 101,
+            stroke: 'black',strokeWidth:2
+          });
+          var logo =["logo-pcz.jpg","logo-pcz.jpg","logo-pcz.jpg","logo-pcz.jpg","logo-pcz.jpg","logo-pcz.jpg","logo-pcz.jpg",
+          "logo-pcz.jpg","logo-pcz.jpg","logo-pcz.jpg","logo-pcz.jpg","logo-pcz.jpg"  ];
+          var locationHorizontal = [20,190,360,530],locationVertical = [50,220,390];
+                          for(var i=0,h=0,v=0;i < logo.length;i++,h++){
+                              if(h%4 == 0 && i != 0) {
+                                  h = 0; v++;
+                              }
+
+                              (function(i,h,v) {console.log(h,v);
+                                  Image.fromURL(logo[i],function (album_img) {
+                                      album_img.scaleToWidth(150);
+
+                                      var textObj2 = new fabric.Text('Photo Text!', {
+                                          fontFamily: 'Delicious_500',
+                                          left: 20,
+                                          top: 10,
+                                          fontSize: 20,
+                                          textAlign: "left",
+                                          fill:"red"
+                                        });
+
+                                      var arr= [album_img];
+                                      if (i<2) arr.push(textObj2);
+                                      var group = new Group(arr, {
+                                        left: locationHorizontal[h],
+                                        top: locationVertical[v],
+                                      });
+                                      canvas2.add(group).renderAll();
+                                  });
+                              })(i,h,v);
+                          }
+
+          var canvas2 = new Canvas("myCanvas2");
+            canvas2.setHeight(600);
+            canvas2.setWidth(700);
+            canvas2.backgroundColor="black";
+
+          var textObj = new fabric.Text('Hello Album!', {
+            fontFamily: 'Delicious_500',
+            left: 290,top: 0,
+            fontSize: 20,
+            textAlign: "left",
+            fill:"white"  // Set text color to red
+      });
+          textObj.setShadow({
+            color: 'white',
+            blur: 5,
+            offsetX: 10,offsetY: 10,
+            opacity: 0.5,
+          });
+
+          canvas.add(rect);
+          canvas.add(triangle);
+          canvas.add(line);
+          canvas2.add(textObj);
+          canvas.renderAll();
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <canvas id="myCanvas" style="height:700px; width:700px; border:black solid 1px;"></canvas>
+    <canvas id="myCanvas2" style="height:700px; width:700px; border:black solid 1px;"></canvas>
+  </body>
+</html>

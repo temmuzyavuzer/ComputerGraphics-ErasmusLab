@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript">
+        window.onload = function () {
+            var canvas = document.getElementById('myCanvas');
+            var context = canvas.getContext('2d');
+            var timeInterval;
+
+            var ball;
+            var ball2;
+            var last_time, stop;
+
+            var last_fps_time = null;
+            var frames_since_last = null;
+            var frame_text = null;
+
+
+            function InitAnimation(){
+                stop = false;
+                linear_speed=200;
+                ball = { x: 30, y: 30, vx: 200, vy: 300, r: 10 };
+                ball2 = { x: 200, y: 100, vx: 300, vy: 200, r: 10};
+
+                var date = new Date();
+                last_time = date.getTime();
+                //window.setInterval(drawAnimation, 20);
+                window.requestAnimationFrame(drawFrame);
+
+            }
+            function frames() {
+                var time = new Date().getTime();
+                if (!last_fps_time) last_fps_time = time;
+                if (!frames_since_last) frames_since_last = 0;
+                frames_since_last++;
+                if (time - last_fps_time >= 1000) {
+                    frame_text = frames_since_last + " FPS";
+                    frames_since_last = 0;
+                    last_fps_time = time;
+                }
+            }
+
+            function drawFrame() {
+                var date = new Date();
+                var time_interval = (date.getTime() - last_time)/1000.0; //seconds
+                last_time = date;
+
+
+                var fps = Math.floor(1/time_interval);
+                context.font = "20px Georgia";
+                context.fillText(fps,100,100);
+
+
+                var newPos_x = ball.x + ball.vx * time_interval;
+                var newPos_y = ball.y + ball.vy * time_interval;
+                if (((newPos_x + ball.r) >= canvas.width ) || ((newPos_x - ball.r) < 0)) {
+                    ball.vx = -ball.vx;
+                }
+                if (((newPos_y + ball.r) >= canvas.height ) || ((newPos_y - ball.r) < 0)){
+                    ball.vy = -ball.vy;
+                }
+                ball.x = ball.x + ball.vx * time_interval;
+                ball.y = ball.y + ball.vy * time_interval;
+
+
+
+                var newPos2_x = ball2.x + ball2.vx * time_interval;
+                var newPos2_y = ball2.y + ball2.vy * time_interval;
+                if (((newPos2_x + ball2.r) >= canvas.width ) || ((newPos2_x - ball2.r) < 0)) {
+                    ball2.vx = -ball2.vx;
+                }
+                if (((newPos2_y + ball2.r) >= canvas.height ) || ((newPos2_y - ball2.r) < 0)){
+                    ball2.vy = -ball2.vy;
+                }
+                ball2.x = ball2.x + ball2.vx * time_interval;
+                ball2.y = ball2.y + ball2.vy * time_interval;
+
+
+                context.clearRect(0, 0, 500, 500);
+                frames();
+                context.save();
+
+                context.fillStyle = "blue";
+                context.beginPath();
+
+                context.fillStyle = ball.fillStyle;
+                context.strokeStyle = ball.strokeStyle;
+                context.moveTo(ball.x, ball.y);
+                context.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2.0);
+                context.closePath();
+                context.fill();
+
+
+                context.fillStyle = "red";
+                context.beginPath();
+                context.fillStyle = ball2.fillStyle;
+                context.strokeStyle = ball2.strokeStyle;
+                context.moveTo(ball2.x, ball2.y);
+                context.arc(ball2.x, ball2.y, ball2.r, 0, Math.PI * 2.0);
+                context.fill();
+                context.closePath();
+
+
+
+                context.beginPath();
+                context.fillStyle = '#000000';
+                context.font = "12px Arial";
+                context.fillText(frame_text || frames_since_last + " FPS", 5, 17);
+                context.closePath();
+
+              //  context.restore();
+                if (!stop) window.requestAnimationFrame(drawFrame);
+            }
+            InitAnimation();
+        }
+        </script>
+</head>
+<body>
+    <canvas id="myCanvas" width="500"
+    height="500" style="border:1px solid black;"></canvas>
+
+</body>
+</html>

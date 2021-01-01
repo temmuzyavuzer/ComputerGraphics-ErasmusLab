@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.min.js"></script>
+    <script type="text/paperscript" canvas="myCanvas">
+   
+
+         
+            var location_1 = new Point(400, 150);
+            var radius = 50;
+            var sides_number = 3;
+            var triangle = new Path.RegularPolygon(location_1, sides_number, radius);
+            triangle.fillColor = 'lightgreen';
+            triangle.strokeColor = 'blue';
+            triangle.selected = true;
+
+
+            with(paper)
+            {
+            var rect_path = Path.Rectangle({
+            point: [100, 100],
+            size: [80, 50],
+            strokeColor: 'Grey',
+            fillColor: 'red'
+            });
+            rect_path.radius_on_sec = 50; //50 degree/s
+            triangle.radius_on_sec=50;
+            //The rectangle animation
+            view.onFrame = function(event)
+            {
+            var delta = event.delta;
+            rect_path.rotate( rect_path.radius_on_sec * delta);
+            triangle.rotate( rect_path.radius_on_sec * delta);
+            }
+            }
+                
+
+
+            var location_2 = new Point(200, 350);
+            var radius = 50;
+            var sides_number = 3;
+            var triangle2 = new Path.RegularPolygon(location_2, sides_number, radius);
+            triangle2.fillColor = 'lightgreen';
+            triangle2.strokeColor = 'blue';
+            triangle2.selected = true;
+
+
+
+            var path = Path.Rectangle({
+                point: [300, 300],
+                size: [80, 50],
+                strokeColor: 'Grey',
+                fillColor: 'red'
+                });
+            
+                var line = new Path();
+                line.strokeColor = 'black';
+                var start = new Point(300, 300);
+                line.moveTo(start);
+                line.lineTo(start.add([-100, 0]));
+
+
+
+                var path = new Path({ strokeColor: 'black' });
+                var tool = new Tool();
+                tool.minDistance = 20;
+                tool.onMouseDown = function (evt) {
+                path.add(evt.point);
+                }
+                tool.onMouseDrag = function (evt) {
+                path.add(evt.point);
+                }
+                
+                tool.onKeyDown = function (event)
+                {
+                switch(event.key)
+                {
+                case "b":
+                line.strokeColor = 'red';
+                break;
+                case "r":
+                line.strokeColor = 'grey';
+                break;
+                }
+                }
+                view.draw();  
+
+
+            
+
+    </script>
+</head>
+<body>
+    <canvas id="myCanvas" resize style="height:700px; width:700px; border:black solid 1px;"></canvas>
+</body>
+</html>

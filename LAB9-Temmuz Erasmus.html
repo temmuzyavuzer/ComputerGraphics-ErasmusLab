@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script class="include" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/jquery.jqplot.css"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+    <script class="include" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/jquery.jqplot.min.js"></script>
+    <script class="include" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.barRenderer.min.js"></script>
+    <script class="include" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.pieRenderer.min.js"></script>
+    <script class="include" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.pointLabels.min.js"></script>
+    <script class="include" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+    <script class="include" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.donutRenderer.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.highlighter.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.cursor.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/smoothness/jquery-ui.css" />
+    <script type="text/javascript" src="../src/plugins/jqplot.cursor.js"></script>
+
+    <script class="code" type="text/javascript">
+        $(document).ready(function () {
+            $('#resizable1').bind('resizestop', function(event, ui) {
+            $('#chart2').height($('#resizable1').height()*0.96);
+            $('#chart2').width($('#resizable1').width()*0.96);
+            plot2.replot({resetAxes:true});
+        });
+           $("#resizable1").resizable();
+
+          $('#resizable1').bind('resize', function(event, ui) {
+        plot2.replot( { resetAxes: true } );
+    });
+
+        var s1 = [2, 4, 3, 7,8];
+        var s2 = [3, 5, 4, 2,7];
+        var s3 = [5,7,8,3,4];
+        var s4 = [10,4,5,8,1];
+        var ticks = ['std1', 'std2', 'std3', 'std4','std5'];
+
+      var plot2 = $.jqplot('chart2', [s1, s2,s3,s4], {
+        animate:true,
+            seriesDefaults: {
+                renderer:$.jqplot.BarRenderer,
+                pointLabels: { show: true }
+            },
+            axes: {
+                xaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer,
+                    ticks: ticks,
+                    label:"Student axis"
+                },yaxis: {
+
+                    label:"Score axis"
+                }
+            },
+            legend: {
+                show: true
+            },
+            highlighter: {
+                show: true,
+                useAxesFormatters: false,
+                tooltipFormatString: '%s'
+            },
+            cursor:{
+            show: true,
+            zoom: true
+        }
+        });
+
+        $('#chart2').bind('jqplotDataHighlight',
+            function (ev, seriesIndex, pointIndex, data) {
+                $('#info2').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);
+            }
+        );
+
+        $('#chart2').bind('jqplotDataUnhighlight',
+            function (ev) {
+                $('#info2').html('Nothing');
+            }
+        );
+
+
+
+
+        $('#resizable2').bind('resizestop', function(event, ui) {
+        $('#chart3').height($('#resizable2').height()*0.96);
+        $('#chart3').width($('#resizable2').width()*0.96);
+        plot2.replot({resetAxes:true});
+        });
+       $("#resizable2").resizable();
+
+        $('#resizable2').bind('resize', function(event, ui) {
+                plot3.replot( { resetAxes: true } );
+            });
+        var s5 = [['std1', 2], ['std2', 4], ['std3', 3], ['std4', 7], ['std5', 8]];
+        var s6 = [['std1', 3], ['std2', 5], ['std3', 4], ['std4', 2], ['std5', 7]];
+        var s7 = [['std1', 5], ['std2', 7], ['std3', 8], ['std4', 3], ['std5', 4]];
+        var s8 = [['std1', 10], ['std2', 4], ['std3', 5], ['std4', 8], ['std5', 1]];
+        var plot3 = $.jqplot('chart3', [s5, s6,s7,s8], {
+          animate:true,
+            seriesDefaults: {
+                // make this a donut chart.
+                renderer: $.jqplot.DonutRenderer,
+                rendererOptions: {
+                    // Donut's can be cut into slices like pies.
+                    sliceMargin: 3,
+                    // Pies and donuts can start at any arbitrary angle.
+                    startAngle: -90,
+                    showDataLabels: true,
+                    // By default, data labels show the percentage of the donut/pie.
+                    // You can show the data 'value' or data 'label' instead.
+                    dataLabels: 'value',
+                    showDataLabels: true,
+                    padding: 10,
+                    sliceMargin: 6,
+                    shadow: false
+                }
+            },
+            legend: {
+                show: true
+            },
+            highlighter: {
+                show: true,
+                useAxesFormatters: false,
+                tooltipFormatString: '%s'
+            },
+            cursor:{
+            show: true,
+            zoom: true
+        }
+
+        });
+
+
+
+        $('#resizable3').bind('resize', function(event, ui) {
+                plot1.replot( { resetAxes: true } );
+            });
+            var line1 = [0.54, -0.65, 0.9, 0.74, -0, -1, -1, -1, -0, 0.4, 0.7];
+            var ticks3 = ['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '0.10', '0.11', '0.12'];
+
+            var plot1 = $.jqplot('chart1', [line1], {
+                title: 'Chart with Point Labels',
+                animate:true,
+                seriesDefaults: {
+                    showMarker: false,
+                    pointLabels: { show: true }
+
+                },
+                axes: {
+                    xaxis: {
+                        renderer: $.jqplot.CategoryAxisRenderer,
+                        ticks: ticks3,
+
+                    }, yaxis: {
+
+
+
+                    }
+                },
+                legend: {
+                    show: true
+                },
+                highlighter: {
+                    show: true,
+                    useAxesFormatters: false,
+                    tooltipContentEditor: function(str, seriesIndex, pointIndex, jqPlot) {
+
+                      return "x: "+ticks3[pointIndex]+", "+"y: " +line1[pointIndex];
+
+                    }
+                },
+                cursor:{
+                show: true,
+                zoom: true
+            }
+            });
+
+
+
+    });
+   </script>
+
+ </head>
+ <body>
+   <div id="resizable1" style=" width:850px;"><div id="chart2" style="height:400px; width:800px;"></div></div>
+   <div id="resizable2"style=" width:850px;"><div id="chart3" style="height:400px; width:800px;"></div></div>
+   <div id="resizable3"style=" width:850px;"><div id="chart1" style="height:400px; width:800px;"></div></div>
+
+
+
+
+ </body>
+</html>

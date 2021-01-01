@@ -1,0 +1,362 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/smoothness/jquery-ui.css" />
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+    <script class="code" type="text/javascript">
+        $(document).ready(function () {
+
+          $('#resizablechart').bind('resizestop', function(event, ui) {
+              $('#chart_div').height($('#resizablechart').height()*0.96);
+              $('#chart_div').width($('#resizablechart').width()*0.96);
+              materialChart.reflow();
+          });
+          $("#resizablechart").resizable();
+
+
+        google.charts.load('current', {packages: ['corechart', 'bar']});
+        google.charts.setOnLoadCallback(drawMaterial);
+        function drawMaterial() {
+              var data = google.visualization.arrayToDataTable([
+                ['Students', 'Score2', 'Score3','Score4','Score5'],
+                ['Student1', 2, 3,5,10],['Student2', 4, 5,7,4],['Student3', 3, 4,8,5],['Student4', 7, 2,3,8],['Student5', 8, 7,4,1],  ]);
+
+              var materialOptions = {
+                chart: {
+                  title: 'Google Chart'
+                },hAxis: {
+                  minValue: 0,
+                },vAxis: {
+                },animation: {
+                  duration: 1000,
+                  easing: 'out',
+                  startup: true
+                },explorer: {
+                    actions: ['dragToZoom', 'rightClickToReset'],
+                    axis: 'horizontal',
+                    keepInBounds: true,
+                    maxZoomIn: 4.0
+              },bars: 'perpendicular'
+            };
+              var materialChart = new google.charts.Bar(document.getElementById('chart_div'));
+              materialChart.draw(data, materialOptions);
+
+              $('#resizablechart').bind('resize', function(event, ui) {
+              materialChart.draw(data, materialOptions);});
+            }
+
+
+
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawPie1);
+            google.charts.setOnLoadCallback(drawPie2);
+            google.charts.setOnLoadCallback(drawPie3);
+            google.charts.setOnLoadCallback(drawPie4);
+            google.charts.setOnLoadCallback(drawPie5);
+
+            function drawPie1() {
+              var data = new google.visualization.DataTable();
+              data.addColumn('string', 'Topping');
+              data.addColumn('number', 'Slices');
+              data.addRows([['Score1', 2],['Score2', 3],['Score3', 5],  ['Score4', 10]]);
+              var options = {title:'Student1', width:280, height:280};
+              var chart = new google.visualization.PieChart(document.getElementById('Pie1'));
+              chart.draw(data, options);
+            }
+            function drawPie2() {
+              var data = new google.visualization.DataTable();
+              data.addColumn('string', 'Topping');
+              data.addColumn('number', 'Slices');
+              data.addRows([['Score1', 4],['Score2', 5],['Score3', 7],  ['Score4', 4]]);
+              var options = {title:'Student2',width:280,height:280};
+              var chart = new google.visualization.PieChart(document.getElementById('Pie2'));
+              chart.draw(data, options);
+            }
+            function drawPie3() {
+              var data = new google.visualization.DataTable();
+              data.addColumn('string', 'Topping');
+              data.addColumn('number', 'Slices');
+              data.addRows([['Score1', 3],['Score2', 4],['Score3', 8],  ['Score4', 5]]);
+              var options = {title:'Student3',width:280,height:280};
+              var chart = new google.visualization.PieChart(document.getElementById('Pie3'));
+              chart.draw(data, options);
+            }
+            function drawPie4() {
+              var data = new google.visualization.DataTable();
+              data.addColumn('string', 'Topping');
+              data.addColumn('number', 'Slices');
+              data.addRows([['Score1',7],['Score2', 2],['Score3', 3],  ['Score4', 8]]);
+              var options = {title:'Student4', width:280,height:280};
+              var chart = new google.visualization.PieChart(document.getElementById('Pie4'));
+              chart.draw(data, options);
+            }
+            function drawPie5() {
+              var data = new google.visualization.DataTable();
+              data.addColumn('string', 'Topping');
+              data.addColumn('number', 'Slices');
+              data.addRows([['Score1', 8],['Score2',7],['Score3', 4],  ['Score4', 1]]);
+              var options = {title:'Student5', width:280,height:280};
+              var chart = new google.visualization.PieChart(document.getElementById('Pie5'));
+              chart.draw(data, options);
+            }
+
+
+
+      $('#resizablediv3').bind('resizestop', function(event, ui) {
+          $('#chart_div3').height($('#resizablediv3').height()*0.96);
+          $('#chart_div3').width($('#resizablediv3').width()*0.96);
+          chartpoint.reflow();  });
+      $("#resizablediv3").resizable();
+
+      google.charts.load('current', {packages: ['corechart', 'line']});
+      google.charts.setOnLoadCallback(drawBasic);
+      function drawBasic() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('number', 'X');
+            data.addColumn('number', 'Y');
+            data.addRows([[0.1, 0.54],   [0.2, -0.65],  [0.3, 0.9],  [0.4, 0.74],  [0.5, 0.74],  [0.6, -0],
+              [0.7, -1],  [0.8, -1],  [0.9, -1],  [1.0, -0],  [1.1, 0.4], [1.2, 0.7]  ]);
+            var options = {
+              hAxis: {
+                title: 'X'
+              },vAxis: {
+                title: 'Y'
+              },animation: {
+                duration: 1000,
+                easing: 'out',
+                startup: true
+              },explorer: {
+                actions: ['dragToZoom', 'rightClickToReset'],
+                axis: 'horizontal',
+                keepInBounds: true,
+                maxZoomIn: 4.0
+              }
+            };
+            var chartpoint = new google.visualization.LineChart(document.getElementById('chart_div3'));
+            chartpoint.draw(data, options);
+
+            $('#resizablediv3').bind('resize', function(event, ui) {
+            chartpoint.draw(data, options);
+            });
+          }
+
+
+
+//////////////////////////////////////////////////////////////////
+//                            HIGHCHARTS                        //
+/////////////////////////////////////////////////////////////////
+
+          $('#resizable1').bind('resizestop', function(event, ui) {
+              $('#chart1').height($('#resizable1').height()*0.96);
+              $('#chart1').width($('#resizable1').width()*0.96);
+              chart1.reflow();});
+          $("#resizable1").resizable();
+          $('#resizable1').bind('resize', function(event, ui) {
+          chart1.reflow();
+        });
+
+var chart1 =Highcharts.chart('container', {
+    chart: {  type: 'column',zoomType:'x'
+    },title: {  text: 'Highcharts'
+    },
+    xAxis: {categories: [
+            'Student1',
+            'Student2',
+            'Student3',
+            'Student4',
+            'Student5',],
+        crosshair: true
+    },yAxis: {
+        min: 0,  title: {text: 'Score'}
+    }
+    ,tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    }
+    ,plotOptions: {
+        column: {pointPadding: 0.2,borderWidth: 0}
+    },series: [{name: 'Score2',data: [2, 4, 3, 7, 8]},
+    {name: 'Score3',data: [3, 5, 4, 2, 7]},
+    {name: 'Score4',data: [5, 7, 8,3,4]},
+     {name: 'Score4',data: [10, 4, 5, 8,1 ]}]
+});
+
+
+
+$('#resizable2').bind('resizestop', function(event, ui) {
+    $('#chart2').height($('#resizable2').height()*0.96);
+    $('#chart2').width($('#resizable2').width()*0.96);
+    chart2.reflow();});
+$("#resizable2").resizable();
+$('#resizable2').bind('resize', function(event, ui) {
+chart2.reflow();});
+var chart2 = Highcharts.chart('container2', {
+    chart: {  type: 'pie',zoomType:'x'
+    },title: {text: 'Students Scores'
+    },subtitle: {text: 'Click the slices to view versions</a>'
+    },accessibility: {announceNewData: {enabled: true
+        },point: {valueSuffix: '%'}
+    },plotOptions: {
+        series: {dataLabels: {enabled: true,
+                format: '{point.name}: {point.y:.1f}%'
+            }
+        }
+    },tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b> of total<br/>'
+    },series: [
+        {  name: "Browsers",
+            colorByPoint: true,
+            data: [{name: "Student1",
+                    y: 20,
+                    drilldown: "Student1"
+                },
+                {  name: "Student2",
+                    y: 20,
+                    drilldown: "Student2"
+                },
+                {  name: "Student3",
+                    y: 20,
+                    drilldown: "Student3"
+                },
+                {  name: "Student4",
+                    y: 20,
+                    drilldown: "Student4"
+                },
+                {  name: "Student5",
+                    y: 20,
+                    drilldown: "Student5"
+                }
+            ]
+        }
+    ],
+    drilldown: {
+        series: [
+            {  name: "Student1",
+                id: "Student1",
+                data: [["Score2",2],["Score3",3],[ "Score4",5 ],["Score5",10]]
+            },
+            {  name: "Student2",
+                id: "Student2",
+                data: [["Score2",4],["Score3", 5],["Score4", 7],["Score5", 4]]
+            },
+            {  name: "Student3",
+                id: "Student3",
+                data: [["Score2",3],["Score3",4],["Score4",  8],["Score5",5]]
+            },
+            {  name: "Studen4",
+                id: "Student4",
+                data: [["Score2",7],  ["Score3", 2],["Score4", 3],["Score5",8]]
+            },
+              {name: "Studen5",
+                id: "Student5",
+                data: [["Score2",8 ],["Score3",7 ], ["Score4",4],["Score5",1]  ]
+            }
+        ]
+    }
+});
+
+
+$('#resizable3').bind('resizestop', function(event, ui) {
+    $('#chart3').height($('#resizable3').height()*0.96);
+    $('#chart3').width($('#resizable3').width()*0.96);
+    chart2.reflow();
+});
+$("#resizable3").resizable();
+$('#resizable3').bind('resize', function(event, ui) {
+chart2.reflow();
+});
+var chart3 = Highcharts.chart('container3', {
+    chart: {type: 'spline',zoomType:'x'
+    },
+    title: {text: 'Datapoint Chart'
+    },
+    xAxis: {categories: ['0,1', '0,2', '0,3', '0,4', '0,5',
+            '0,6', '0,7', '0,8', '0,9', '0,10', '0,11','0,12']
+    },
+    yAxis: {title: {
+            text: 'Y'
+        },
+        labels: {
+            formatter: function () {
+                return this.value + '°';
+            }
+        }
+    },tooltip: {
+        crosshairs: true,
+        shared: true
+    },plotOptions: {
+        spline: {
+            marker: {
+                radius: 4,
+                lineColor: '#666666',
+                lineWidth: 1
+            }
+        }
+    },
+    series: [{
+        name: 'X',
+        marker: {
+            symbol: 'square'
+        },data: [0.54, -0.65, 0.9, 0.74, -0, -1, -1,-1, -0, 0.4, 0.7]
+    }]
+});
+
+    });
+   </script>
+
+ </head>
+ <body>
+<div id="resizablechart" style=" width:850px;">
+   <div id="chart_div" style="height:450px" ></div>
+</div>
+<table class="columns">
+  <tr>
+    <td><div id="Pie1" style="border: 1px solid #ccc"></div></td>
+    <td><div id="Pie2" style="border: 1px solid #ccc"></div></td>
+    <td><div id="Pie3" style="border: 1px solid #ccc"></div></td>
+    <td><div id="Pie4" style="border: 1px solid #ccc"></div></td>
+    <td><div id="Pie5" style="border: 1px solid #ccc"></div></td>
+  </tr>
+</table>
+<div id="resizablediv3" style=" width:850px;">
+   <div id="chart_div3" style="height: 300px;"></div>
+</div>
+<div id="resizable1" style=" width:850px;">
+   <figure class="highcharts-figure">
+       <div id="container"></div>
+       <p class="highcharts-description"></p>
+   </figure>
+</div>
+<div id="resizable2" style=" width:850px;">
+   <figure class="highcharts-figure">
+       <div id="container2"></div>
+       <p class="highcharts-description"></p>
+   </figure>
+</div>
+<div id="resizable3" style=" width:850px;">
+   <figure class="highcharts-figure">
+       <div id="container3"></div>
+       <p class="highcharts-description"></p>
+   </figure>
+</div>
+ </body>
+</html>

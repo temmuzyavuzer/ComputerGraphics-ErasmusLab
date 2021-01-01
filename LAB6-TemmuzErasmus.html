@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="500" height="500" style="border:1px solid black;"></canvas>
+    <script type="text/javascript">
+
+        window.onload=function(){
+            var canvas=document.getElementById('myCanvas');
+            var context=canvas.getContext('2d');
+
+            var timeInterval;
+            var animSpeed;
+            var clock={};
+
+            function InitAnimation(){
+                timeInterval=0.1;
+                clock={
+                    area:{x:0,y:0,width:canvas.width,height:canvas.height},smallRadius:34,
+                    radius:200,startColor:"#f03e3e",stopColor:"#ffffff",hour:0,minute:0,second:0,
+                    hourAngle:0,minuteAngle:0,secondAngle:0,
+                    fontProperty:{font:"32pt Calibri",fillStyle:"#024F8C",textAlign:"center",textBaseLine:"middle"}
+                };
+                setInterval(drawFrame,timeInterval*1000);
+            }
+            function drawFrame(){
+                var a0x=-110,a0y=-70;
+
+                var date=new Date();
+                clock.second=date.getSeconds()+date.getMilliseconds()/1000;
+                clock.minute=date.getMinutes()+clock.second/60;
+                clock.hour=date.getHours()+clock.minute/60;
+                clock.millisecond=date.getMilliseconds();
+                if(clock.hour>12)
+                    clock.hour-=12;
+
+                clock.hourAngle=(clock.hour-3)*2*Math.PI/12;
+                clock.minuteAngle=(clock.minute-15)*2*Math.PI/60;
+                clock.secondAngle=(clock.second-15)*2*Math.PI/60;
+                clock.milliSecondAngle=(clock.millisecond-15)*2*Math.PI/34;
+
+                context.save();
+                context.translate(clock.area.width/2.0,clock.area.height/2.0);
+                context.save();
+                context.beginPath();
+                context.arc(0,0,clock.radius,0,Math.PI*2);
+
+
+                var grad = context.createRadialGradient(0,0,clock.radius*0.95, 0,0,clock.radius*1.05);
+                grad.addColorStop(0, '#000000');
+                grad.addColorStop(0.5, '#654c87');
+                grad.addColorStop(1, '#9e9c98');
+                context.strokeStyle = grad;
+                context.lineWidth = clock.radius*0.15;
+                context.stroke();
+
+                var grd=context.createLinearGradient(-clock.radius,-clock.radius, clock.radius,clock.radius);
+                grd.addColorStop(0,clock.startColor);
+                grd.addColorStop(1,clock.stopColor);
+                context.fillStyle=grd;
+                context.fill();
+                context.closePath();
+                context.restore();
+
+                context.save();
+                context.beginPath();
+                context.font=clock.fontProperty.font;
+                context.fillStyle=clock.fontProperty.fillStyle;
+                context.textAlign=clock.fontProperty.textAlign;
+                context.textBaseline=clock.fontProperty.textBaseLine;
+                for(var n=1;n<=12;n++){
+                    var theta=(n-3)*(Math.PI*2)/12;
+                    var x=clock.radius*0.8*Math.cos(theta);
+                    var y=clock.radius*0.8*Math.sin(theta);
+                    context.strokeText(n,x,y);
+                    context.fillText(n,x,y);
+                }
+                context.restore();
+
+
+                a0x = -40;
+                a0y = -47;
+                context.save();
+                context.fillStyle = "#3f58f5";
+                context.strokeStyle="#e034e0";
+                context.rotate(clock.hourAngle);
+                context.beginPath();
+                context.lineWidth=1;
+                context.moveTo(a0x+133,a0y+52);
+                context.bezierCurveTo(a0x+36,a0y+14,a0x+104,a0y+51,a0x+43,a0y+52);
+                context.fill();
+                context.stroke();
+                context.restore();
+
+
+                a0x = -50;
+                a0y = -55;
+                context.save();
+                context.fillStyle = "#6537ab";
+                context.strokeStyle="#0a090a";;
+                context.rotate(clock.minuteAngle);
+                context.beginPath();
+                context.lineWidth=1;
+                context.moveTo(a0x+160,a0y+71);
+                context.bezierCurveTo(a0x+13,a0y+18,a0x+17,a0y+100,a0x+162,a0y+45);
+                context.fill();
+                context.stroke();
+                context.restore();
+
+                a0x = -20;
+                a0y = -15;
+                context.save();
+                context.fillStyle = "#e8de1c";
+                context.strokeStyle="#f74040";
+                context.rotate(clock.secondAngle);
+                context.beginPath();
+                context.lineWidth=1;
+                context.moveTo(a0x+169,a0y+49);
+                context.bezierCurveTo(a0x+-23,a0y+-7,a0x+2,a0y+29,a0x+173,a0y+50);
+                context.fill();
+                context.stroke();
+                context.restore();
+
+
+                context.save();
+                context.globalCompositeOperation = 'source-over';
+                context.beginPath();
+                context.arc(0, 0, clock.radius*0.1, 0, 2*Math.PI);
+                context.fillStyle = '#333';
+                context.fill();
+                context.restore();
+
+                context.restore();
+            }
+            InitAnimation();
+        }
+    </script>
+</body>
+</html>
